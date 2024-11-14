@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Games - Board Game Club</title>
+</head>
+<body>
+    <h1>All Board Games</h1>
+    <ul>
+        {% for game in games %}
+            <li>
+                <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
+                {% if game.is_available %}
+                    <a href="{% url 'borrow_game' game.id %}">Borrow</a>
+                {% else %}
+                    <span>Not Available</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <p>No games available.</p>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_game' %}">Add a New Game</a>
+</body>
+</html>

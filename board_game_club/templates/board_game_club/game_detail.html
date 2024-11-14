@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ game.title }} - Details</title>
+</head>
+<body>
+    <h1>{{ game.title }}</h1>
+    <p>{{ game.description }}</p>
+    <p>Available: {{ game.is_available }}</p>
+
+    {% if game.is_available %}
+        <a href="{% url 'borrow_game' game.id %}">Borrow This Game</a>
+    {% else %}
+        <a href="{% url 'return_game' game.id %}">Return This Game</a>
+    {% endif %}
+
+    <a href="{% url 'edit_game' game.id %}">Edit Game</a>
+    <a href="{% url 'game_list' %}">Back to All Games</a>
+</body>
+</html>

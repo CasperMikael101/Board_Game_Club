@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Board Game Club</title>
+</head>
+<body>
+    <h1>Welcome to the Board Game Club</h1>
+    
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'game_list' %}">Games</a></li>
+            <li>Add list for borrowed games and account </li>
+            {% if user.is_authenticated %}
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+            <li>Todo:   </li>
+            <li>only loging users should be able to add or borrow games,</li>
+            <li>make it more pretty, </li>
+            <li>!!!When boarding a game some how it does not register as borrowed !!!</li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+
+        </ul>
+    </nav>
+</body>
+</html>
