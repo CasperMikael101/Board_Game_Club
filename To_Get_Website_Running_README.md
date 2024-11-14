@@ -5,5 +5,10 @@
 #### to get virtual envoirnment working
 .\club_env\Scripts\Activate
 
+
+or
+
+
+
 #### to run the website
 python manage.py runserver
