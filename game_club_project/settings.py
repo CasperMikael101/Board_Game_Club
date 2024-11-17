@@ -129,6 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # for login and logout
-LOGIN_REDIRECT_URL = '/games'      
+LOGIN_REDIRECT_URL = '/'      
 
 LOGOUT_REDIRECT_URL = '/'
