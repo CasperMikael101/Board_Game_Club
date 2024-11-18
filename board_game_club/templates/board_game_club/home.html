@@ -1,5 +1,6 @@
 {% extends 'board_game_club/base.html' %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <title>Home - Board Game Club</title>
 </head>
 <body>
+    {% block content %}
     <h1>Welcome to the Board Game Club</h1>
     
     <nav>
@@ -36,7 +38,7 @@
 
         </ul>
     </nav>
-    {% endblock content %}
+    {% endblock %}
 </body>
 </html>
 
