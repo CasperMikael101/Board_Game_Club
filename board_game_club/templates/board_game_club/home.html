@@ -13,29 +13,7 @@
     
     <nav>
         <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'game_list' %}">Games</a></li>
-            <li>Add list for borrowed games and account </li>
-            {% if user.is_authenticated %}
-                <li>
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
-            {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-            {% endif %}
-            <p>Important todos, refer to README for requirements:   </p>
-            <li>Set up admin and super user for creds</li>
-            <li>Information secuirt??? Part of rubric</li>
-            <li>Use class inheritance and css to make it pretty, part of rubric</li>
-            <p>Course of action</p>
-            <li>Get all functionaliy, seen on README, to work than work on apperance</li>
-            <li></li>
-
-
+            
         </ul>
     </nav>
     {% endblock %}

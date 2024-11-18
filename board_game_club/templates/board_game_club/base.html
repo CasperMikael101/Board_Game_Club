@@ -13,7 +13,7 @@
 <body>
   <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'game_list' %}">
+      <a class="navbar-brand" href="{% url 'home' %}">
           Board Games</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -28,6 +28,25 @@
             <a class="nav-link" href="{% url 'game_list' %}">
                 All Games</a>
           </li>
+
+          {% if user.is_authenticated %}
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+          {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">
+                Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">
+                Register</a>
+          </li>
+          {% endif %}
         </ul> <!-- End of links on left side of navbar -->
 
         <!-- Account-related links -->
@@ -35,13 +54,7 @@
 
         </ul> <!-- End of account-related links -->
 
-        {% if user.is_authenticated %}
-          <form action="{% url 'accounts:logout' %}" method="post">
-            {% csrf_token %}
-            <button name="submit" class="btn btn-outline-secondary btn-sm">
-              Log out</button>
-          </form>
-        {% endif %}
+        
       </div> <!-- Closes collapsible parts of navbar -->
     </div> <!-- Closes navbar's container -->
   </nav> <!-- End of navbar -->

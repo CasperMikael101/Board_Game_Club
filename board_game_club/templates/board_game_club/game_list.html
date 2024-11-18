@@ -1,3 +1,5 @@
+{% extends 'board_game_club/base.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +7,7 @@
     <title>All Games - Board Game Club</title>
 </head>
 <body>
+    {% block content %}
     <h1>All Board Games</h1>
     <p>Max 3 board games per person.</p>
     <ul>
@@ -22,6 +25,7 @@
     {% endfor %}
     </ul>
     <a href="{% url 'add_game' %}">Add a New Game</a>
+    {% endblock %}
 </body>
 </html>
 
