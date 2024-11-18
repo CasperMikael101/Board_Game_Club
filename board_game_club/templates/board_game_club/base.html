@@ -28,28 +28,11 @@
             <a class="nav-link" href="{% url 'game_list' %}">
                 All Games</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'borrowed_games' %}">
-                Borrowed Games</a>
-          </li>
         </ul> <!-- End of links on left side of navbar -->
 
         <!-- Account-related links -->
         <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-          {% if user.is_authenticated %}
-            <li class="nav-item">
-              <span class="navbar-text me-2">Hello, {{ user.username }}.</span>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'accounts:register' %}">
-                  Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'accounts:login' %}">
-                  Log in</a>
-            </li>
-          {% endif %}
+
         </ul> <!-- End of account-related links -->
 
         {% if user.is_authenticated %}
