@@ -1,22 +1,34 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import BoardGame
+from .models import BoardGame, Loan
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
-
+from django.contrib import messages  # Check if needed
+from django.utils import timezone
+from django.http import HttpResponseForbidden
 
 
 def home(request):
     return render(request, 'board_game_club/home.html')
 
-
+@login_required
 def game_list(request):
     games = BoardGame.objects.all()
     return render(request, 'board_game_club/game_list.html', {'games': games})
 
+@login_required
 def game_detail(request, id):
     game = get_object_or_404(BoardGame, id=id)
     return render(request, 'board_game_club/game_detail.html', {'game': game})
 
+
+
+
+
+
+
+
+@login_required
 def add_game(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -31,18 +43,90 @@ def add_game(request):
     
     return render(request, 'board_game_club/add_game.html')
 
+
+
+@login_required
 def edit_game(request, id):
-    # Logic to edit a game
-    return render(request, 'board_game_club/edit_game.html')
+    game = get_object_or_404(BoardGame, id=id)
 
+    # Only the person who made the game can edit the board game
+    if game.owner != request.user:
+        return HttpResponseForbidden("You are not allowed to edit this game. Use back page to go back.")
+
+    if request.method == 'POST':
+        # Get the data
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+
+        # Update the edited aspects
+        game.title = title
+        game.description = description
+        game.save()
+
+        # Go back to the games details
+        return redirect('game_detail', id=game.id)
+    return render(request, 'board_game_club/edit_game.html', {'game': game})
+
+
+@login_required
 def borrow_game(request, id):
-    # Logic to borrow a game
+    game = get_object_or_404(BoardGame, id=id)
+
+    # Logic to check if board game is borrowed
+    if not game.is_available:
+        messages.error(request, "This board game is already borrowed.")
+        return redirect('game_list')
+
+    # Limit to 3 books
+    active_loans = Loan.objects.filter(borrower=request.user, returned_at__isnull=True).count()
+    if active_loans >= 3: #limit 3
+        messages.error(request, "You can only borrow up to 3 games at a time, delete or return a book")
+        return redirect('game_list')
+
+    # Loan it
+    Loan.objects.create(borrower=request.user, game=game)
+    game.is_available = False
+    game.save()
+
+    messages.success(request, f"You have successfully borrowed '{game.title}'.")
     return redirect('game_list')
 
+@login_required
 def return_game(request, id):
-    # Logic to return a game
+    game = get_object_or_404(BoardGame, id=id)
+
+    # Check if the user has borrowed this game
+    loan = Loan.objects.filter(game=game, borrower=request.user, returned_at__isnull=True).first()
+    if not loan:
+        messages.error(request, "You cannot return a game you haven't borrowed.")
+        return redirect('game_list')
+
+    # Mark the game as returned and update its availability
+    loan.returned_at = timezone.now()
+    loan.save()
+    game.is_available = True
+    game.save()
+
+    messages.success(request, f"You have successfully returned '{game.title}'.")
     return redirect('game_list')
 
+
+
+@login_required
+def delete_game(request, id):
+    game = get_object_or_404(BoardGame, id=id)
+
+    # Ensure only the owner can delete the game
+    if game.owner != request.user:
+        messages.error(request, "You are not allowed to delete this game.")
+        return redirect('game_list')
+
+    if request.method == 'POST':
+        game.delete()
+        messages.success(request, "Game deleted successfully!")
+        return redirect('game_list')
+
+    return render(request, 'board_game_club/delete_game.html', {'game': game})
 
 
 
