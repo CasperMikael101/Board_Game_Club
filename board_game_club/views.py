@@ -19,8 +19,14 @@ def game_list(request):
 @login_required
 def game_detail(request, id):
     game = get_object_or_404(BoardGame, id=id)
-    return render(request, 'board_game_club/game_detail.html', {'game': game})
 
+    # Condition of if the book is loneaed
+    active_loan = game.loans.filter(returned_at__isnull=True).first()
+
+    return render(request, 'board_game_club/game_detail.html', {
+        'game': game,
+        'borrower': active_loan.borrower if active_loan else None,  # get who borrows it
+    })
 
 
 

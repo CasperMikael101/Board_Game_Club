@@ -9,26 +9,26 @@
     <p>{{ game.description }}</p>
     <p>Available: {{ game.is_available }}</p>
 
+    {% if not game.is_available %}
+        <p><strong>Borrowed by:</strong> {{ borrower.username }}</p>
+    {% endif %}
+
     {% if game.is_available %}
         <a href="{% url 'borrow_game' game.id %}">Borrow This Game</a>
     {% else %}
-        {% for loan in game.loans.all %}
-            {% if loan.borrower == user and loan.is_active %}
-                <a href="{% url 'return_game' game.id %}">Return This Game</a>
-            {% endif %}
-        {% endfor %}
-        <p>Borrowed.</p>
+        {% if borrower == user %}
+            <a href="{% url 'return_game' game.id %}">Return This Game</a>
+        {% endif %}
     {% endif %}
 
     {% if game.owner == user %}
         <a href="{% url 'edit_game' game.id %}">Edit Game</a>
         <a href="{% url 'delete_game' game.id %}">Delete Game</a>
     {% endif %}
-        <a href="{% url 'game_list' %}">You are not allowed to edit other users games</a>
+
+    <p><strong>Last edited:</strong> {{ game.modified_at|date:"F j, Y, g:i a" }}</p>
+
+
     <a href="{% url 'game_list' %}">Back to All Games</a>
 </body>
 </html>
-
-
-
-

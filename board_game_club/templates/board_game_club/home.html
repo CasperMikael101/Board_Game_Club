@@ -1,3 +1,5 @@
+{% extends 'board_game_club/base.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,10 +26,7 @@
                 <li><a href="{% url 'register' %}">Register</a></li>
             {% endif %}
             <p>Important todos, refer to README for requirements:   </p>
-            <li>Only login users can add and see board games (done)</li>
-            <li>Board games don't borrow!</li>
             <li>Set up admin and super user for creds</li>
-            <li>Limit borrow to 3, and a pop up on why</li>
             <li>Information secuirt??? Part of rubric</li>
             <li>Use class inheritance and css to make it pretty, part of rubric</li>
             <p>Course of action</p>
@@ -39,3 +38,7 @@
     </nav>
 </body>
 </html>
+
+
+
+{% endblock content %}
