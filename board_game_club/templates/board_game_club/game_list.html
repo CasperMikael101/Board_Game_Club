@@ -1,33 +1,28 @@
 {% extends 'board_game_club/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All Games - Board Game Club</title>
-</head>
-<body>
-    {% block content %}
-    <h1>All Board Games</h1>
-    <p>Max 3 board games per person.</p>
-    <ul>
-        {% for game in games %}
-        <li>
-            <a href="{% url 'game_detail' game.id %}">{{ game.title }}</a>
-            {% if game.is_available %}
-                <a href="{% url 'borrow_game' game.id %}">Borrow</a>
-            {% else %}
-                <span>Not Available</span>
-            {% endif %}
-        </li>
+{% block content %}
+<h1>All Board Games</h1>
+<p>Max 3 board games per person.</p>
+<div class="row">
+    {% for game in games %}
+    <!-- This parts puts each game into its own box with the apropriate buttons -->
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ game.title }}</h5>
+                <p class="card-text">{{ game.description }}</p>
+                <a href="{% url 'game_detail' game.id %}" class="btn btn-primary">View Details</a>
+                {% if game.is_available %}
+                    <a href="{% url 'borrow_game' game.id %}" class="btn btn-success">Borrow</a>
+                {% else %}
+                    <button class="btn btn-secondary" disabled>Not Available</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
     {% empty %}
-        <p>No games available.</p>
+    <p>No games available.</p>
     {% endfor %}
-    </ul>
-    <a href="{% url 'add_game' %}">Add a New Game</a>
-    {% endblock %}
-</body>
-</html>
-
-
-
+</div>
+<a href="{% url 'add_game' %}" class="btn btn-primary">Add a New Game</a>
+{% endblock %}
