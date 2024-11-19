@@ -16,6 +16,7 @@
         <p><strong>Borrowed by:</strong> {{ borrower.username }}</p>
     {% endif %}
 
+    <p><strong>Created at:</strong> {{ game.created_at|date:"F j, Y, g:i a" }}</p>
     <p><strong>Last edited:</strong> {{ game.modified_at|date:"F j, Y, g:i a" }}</p>
 
     {% if game.is_available %}
